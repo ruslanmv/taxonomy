@@ -54,7 +54,7 @@
        answer: |
          SELECT * FROM intervento_data WHERE tipo_intervento = 'CIG in Deroga' AND (aprile_2024 > 500000 OR gennaio_aprile_2024 > 500000);
    document:
-     repo:  https://github.ibm.com/ruslan-idelfonso-magana-cic/watsonx-challenge-data-scientist-cic-italy-team     
-     commit: e0b9f96
+     repo:  https://github.com/ruslanmv/taxonomy    
+     commit: 8140b51
      patterns:
        - "*.md"
