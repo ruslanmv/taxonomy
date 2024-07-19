@@ -79,6 +79,6 @@ seed_examples:
       SELECT * FROM TABLE1 WHERE "cig ordinaria industria" > 180000000;
 document:
   repo: https://github.com/ruslanmv/taxonomy 
-  commit: 931c1ec
+  commit: 46b0bc1
   patterns:
     - "*.md"
