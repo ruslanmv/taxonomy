@@ -1,84 +1,267 @@
-task_description: Convert natural language text to SQL queries
+version: 3
 created_by: ruslanmv
 domain: text-to-sql
 seed_examples:
-  - question: "Select all data from TABLE1."
+- context: |
+    The table table1 has the following schema.
+    Column anni, Data Type integer, Nullable YES
+    Column cig ordinaria totale cigo, Data Type bigint, Nullable YES
+    Column cig straordinaria, Data Type bigint, Nullable YES
+    Column cig ordinaria industria, Data Type bigint, Nullable YES
+    Column cig ordinaria edilizia, Data Type bigint, Nullable YES
+    Column complesso, Data Type bigint, Nullable YES
+    Column variazione percent, Data Type double precision, Nullable YES
+    This schema describes the structure of the table and can be used to build SQL queries.
+  questions_and_answers:
+  - question: |
+      Recupera il conteggio di tutte le righe nella tabella table1
     answer: |
-      SELECT * FROM TABLE1;
-  - question: "Select the anni column from TABLE1."
+      SELECT COUNT(*) FROM table1;
+  - question: |
+      Seleziona tutte le colonne della tabella table1 dove la colonna anni è uguale a 2020
     answer: |
-      SELECT anni FROM TABLE1;
-  - question: "Select the cig ordinaria totale cigo for the year 1981 from TABLE1."
+      SELECT * FROM table1 WHERE anni = 2020;
+  - question: |
+      Calcola la somma di tutte le celle nella colonna cig_ordinaria_totale_cigo della tabella table1
     answer: |
-      SELECT "cig ordinaria totale cigo" FROM TABLE1 WHERE anni = 1981;
-  - question: "Find the total cig straordinaria for all years in TABLE1."
+      SELECT SUM(cig_ordinaria_totale_cigo) FROM table1;
+  - question: |
+      Recupera la media della colonna variazione_percent nella tabella table1
     answer: |
-      SELECT SUM("cig straordinaria") FROM TABLE1;
-  - question: "Select the anni and complesso columns from TABLE1 where variazione % is greater than 50."
+      SELECT AVG(variazione_percent) FROM table1;
+  - question: |
+      Seleziona la colonna anni e la colonna cig_ordinaria_totale_cigo della tabella table1
     answer: |
-      SELECT anni, complesso FROM TABLE1 WHERE "variazione %" > 50;
-  - question: "Find the average cig ordinaria industria from TABLE1."
+      SELECT anni, cig_ordinaria_totale_cigo FROM table1;
+  - question: |
+      Conteggia il numero di righe nella tabella table1 dove la colonna cig_straordinaria è maggiore di 1000
     answer: |
-      SELECT AVG("cig ordinaria industria") FROM TABLE1;
-  - question: "Select the maximum cig ordinaria edilizia from TABLE1."
+      SELECT COUNT(*) FROM table1 WHERE cig_straordinaria > 1000;
+  - question: |
+      Recupera la massima valore della colonna cig_ordinaria_industria nella tabella table1
     answer: |
-      SELECT MAX("cig ordinaria edilizia") FROM TABLE1;
-  - question: "Select the minimum cig ordinaria totale cigo from TABLE1."
+      SELECT MAX(cig_ordinaria_industria) FROM table1;
+  - question: |
+      Seleziona tutte le colonne della tabella table1 dove la colonna complesso è uguale a 5000
     answer: |
-      SELECT MIN("cig ordinaria totale cigo") FROM TABLE1;
-  - question: "Count the number of distinct years (anni) in TABLE1."
+      SELECT * FROM table1 WHERE complesso = 5000;
+  - question: |
+      Calcola la somma della colonna cig_ordinaria_edilizia e della colonna cig_straordinaria nella tabella table1
     answer: |
-      SELECT COUNT(DISTINCT anni) FROM TABLE1;
-  - question: "Select all columns from TABLE1 where complesso is greater than 500000000."
+      SELECT SUM(cig_ordinaria_edilizia + cig_straordinaria) FROM table1;
+  - question: |
+      Recupera la minima valore della colonna anni nella tabella table1
     answer: |
-      SELECT * FROM TABLE1 WHERE complesso > 500000000;
-  - question: "Find the total complesso for the year 1982 from TABLE1."
+      SELECT MIN(anni) FROM table1;
+- context: |
+    The table table1 has the following schema.
+    Column anni, Data Type integer, Nullable YES
+    Column cig ordinaria totale cigo, Data Type bigint, Nullable YES
+    Column cig straordinaria, Data Type bigint, Nullable YES
+    Column cig ordinaria industria, Data Type bigint, Nullable YES
+    Column cig ordinaria edilizia, Data Type bigint, Nullable YES
+    Column complesso, Data Type bigint, Nullable YES
+    Column variazione percent, Data Type double precision, Nullable YES
+    This schema describes the structure of the table and can be used to build SQL queries.
+  questions_and_answers:
+  - question: |
+      Recupera tutti i valori della colonna anni della tabella table1
     answer: |
-      SELECT complesso FROM TABLE1 WHERE anni = 1982;
-  - question: "Select the anni and variazione % columns from TABLE1."
+      SELECT anni FROM table1;
+  - question: |
+      Conta il numero di righe nella tabella table1 dove la colonna cig_ordinaria_totale_cigo è maggiore di 1000
     answer: |
-      SELECT anni, "variazione %" FROM TABLE1;
-  - question: "Select the cig straordinaria and complesso columns from TABLE1 where cig ordinaria totale cigo is less than 200000000."
+      SELECT COUNT(*) FROM table1 WHERE cig_ordinaria_totale_cigo > 1000;
+  - question: |
+      Recupera la somma della colonna cig_straordinaria della tabella table1
     answer: |
-      SELECT "cig straordinaria", complesso FROM TABLE1 WHERE "cig ordinaria totale cigo" < 200000000;
-  - question: "Select the anni and cig ordinaria industria where cig ordinaria industria is greater than 150000000 from TABLE1."
+      SELECT SUM(cig_straordinaria) FROM table1;
+  - question: |
+      Recupera la media della colonna variazione_percent della tabella table1
     answer: |
-      SELECT anni, "cig ordinaria industria" FROM TABLE1 WHERE "cig ordinaria industria" > 150000000;
-  - question: "Select the anni and cig ordinaria edilizia where cig ordinaria edilizia is between 60000000 and 80000000 from TABLE1."
+      SELECT AVG(variazione_percent) FROM table1;
+  - question: |
+      Recupera tutte le righe della tabella table1 dove la colonna complesso è uguale a 10
     answer: |
-      SELECT anni, "cig ordinaria edilizia" FROM TABLE1 WHERE "cig ordinaria edilizia" BETWEEN 60000000 AND 80000000;
-  - question: "Select all columns from TABLE1 where variazione % is null."
+      SELECT * FROM table1 WHERE complesso = 10;
+  - question: |
+      Conta il numero di righe nella tabella table1 dove la colonna anni è maggiore di 2010
     answer: |
-      SELECT * FROM TABLE1 WHERE "variazione %" IS NULL;
-  - question: "Select the anni and cig straordinaria where cig straordinaria is less than 200000000 from TABLE1."
+      SELECT COUNT(*) FROM table1 WHERE anni > 2010;
+  - question: |
+      Recupera la somma della colonna cig_ordinaria_industria della tabella table1
     answer: |
-      SELECT anni, "cig straordinaria" FROM TABLE1 WHERE "cig straordinaria" < 200000000;
-  - question: "Select the anni and complesso where variazione % is not null from TABLE1."
+      SELECT SUM(cig_ordinaria_industria) FROM table1;
+  - question: |
+      Recupera tutte le righe della tabella table1 dove la colonna cig_ordinaria_edilizia è minore di 500
     answer: |
-      SELECT anni, complesso FROM TABLE1 WHERE "variazione %" IS NOT NULL;
-  - question: "Select the anni and cig ordinaria totale cigo where anni is 1980 from TABLE1."
+      SELECT * FROM table1 WHERE cig_ordinaria_edilizia < 500;
+  - question: |
+      Recupera la media della colonna cig_straordinaria della tabella table1
     answer: |
-      SELECT anni, "cig ordinaria totale cigo" FROM TABLE1 WHERE anni = 1980;
-  - question: "Select the anni, cig straordinaria, and complesso where cig straordinaria is greater than 300000000 from TABLE1."
+      SELECT AVG(cig_straordinaria) FROM table1;
+  - question: |
+      Recupera tutte le righe della tabella table1 dove la colonna anni è uguale a 2015
     answer: |
-      SELECT anni, "cig straordinaria", complesso FROM TABLE1 WHERE "cig straordinaria" > 300000000;
-  - question: "Select the anni, cig ordinaria edilizia, and variazione % where cig ordinaria edilizia is less than 70000000 from TABLE1."
+      SELECT * FROM table1 WHERE anni = 2015;
+- context: |
+    The table table1 has the following schema.
+    Column anni, Data Type integer, Nullable YES
+    Column cig ordinaria totale cigo, Data Type bigint, Nullable YES
+    Column cig straordinaria, Data Type bigint, Nullable YES
+    Column cig ordinaria industria, Data Type bigint, Nullable YES
+    Column cig ordinaria edilizia, Data Type bigint, Nullable YES
+    Column complesso, Data Type bigint, Nullable YES
+    Column variazione percent, Data Type double precision, Nullable YES
+    This schema describes the structure of the table and can be used to build SQL queries.
+  questions_and_answers:
+  - question: |
+      Recupera tutti i valori della colonna 'anni' nella tabella 'table1'
     answer: |
-      SELECT anni, "cig ordinaria edilizia", "variazione %" FROM TABLE1 WHERE "cig ordinaria edilizia" < 70000000;
-  - question: "Select the anni and complesso where complesso is less than 400000000 from TABLE1."
+      SELECT anni FROM table1;
+  - question: |
+      Conta il numero di righe nella tabella 'table1' dove la colonna 'cig_ordinaria_totale_cigo' è maggiore di 1000
     answer: |
-      SELECT anni, complesso FROM TABLE1 WHERE complesso < 400000000;
-  - question: "Find the average variazione % from TABLE1."
+      SELECT COUNT(*) FROM table1 WHERE cig_ordinaria_totale_cigo > 1000;
+  - question: |
+      Recupera la somma di tutte le colonne 'cig_straordinaria' e 'cig_ordinaria_industria' nella tabella 'table1'
     answer: |
-      SELECT AVG("variazione %") FROM TABLE1;
-  - question: "Select the anni and cig ordinaria totale cigo where variazione % is not null from TABLE1."
+      SELECT SUM(cig_straordinaria + cig_ordinaria_industria) FROM table1;
+  - question: |
+      Trova la media della colonna 'variazione_percent' nella tabella 'table1'
     answer: |
-      SELECT anni, "cig ordinaria totale cigo" FROM TABLE1 WHERE "variazione %" IS NOT NULL;
-  - question: "Select all columns from TABLE1 where cig ordinaria industria is greater than 180000000."
+      SELECT AVG(variazione_percent) FROM table1;
+  - question: |
+      Recupera tutte le righe della tabella 'table1' dove la colonna 'complesso' è uguale a 500
     answer: |
-      SELECT * FROM TABLE1 WHERE "cig ordinaria industria" > 180000000;
+      SELECT * FROM table1 WHERE complesso = 500;
+  - question: |
+      Conta il numero di righe nella tabella 'table1' dove la colonna 'anni' è compresa tra 2010 e 2020
+    answer: |
+      SELECT COUNT(*) FROM table1 WHERE anni BETWEEN 2010 AND 2020;
+  - question: |
+      Recupera la massima valore della colonna 'cig_ordinaria_edilizia' nella tabella 'table1'
+    answer: |
+      SELECT MAX(cig_ordinaria_edilizia) FROM table1;
+  - question: |
+      Recupera tutte le righe della tabella 'table1' dove la colonna 'cig_straordinaria' è nulla
+    answer: |
+      SELECT * FROM table1 WHERE cig_straordinaria IS NULL;
+  - question: |
+      Trova la somma della colonna 'cig_ordinaria_totale_cigo' raggruppata per anno nella tabella 'table1'
+    answer: |
+      SELECT anni, SUM(cig_ordinaria_totale_cigo) FROM table1 GROUP BY anni;
+  - question: |
+      Recupera tutte le righe della tabella 'table1' dove la colonna 'variazione_percent' è maggiore di 10
+    answer: |
+      SELECT * FROM table1 WHERE variazione_percent > 10;
+- context: |
+    The table table1 has the following schema.
+    Column anni, Data Type integer, Nullable YES
+    Column cig ordinaria totale cigo, Data Type bigint, Nullable YES
+    Column cig straordinaria, Data Type bigint, Nullable YES
+    Column cig ordinaria industria, Data Type bigint, Nullable YES
+    Column cig ordinaria edilizia, Data Type bigint, Nullable YES
+    Column complesso, Data Type bigint, Nullable YES
+    Column variazione percent, Data Type double precision, Nullable YES
+    This schema describes the structure of the table and can be used to build SQL queries.
+  questions_and_answers:
+  - question: |
+      Recupera tutti i valori della colonna anni dalla tabella table1
+    answer: |
+      SELECT anni FROM table1;
+  - question: |
+      Conta il numero di righe nella tabella table1 dove la colonna complesso è maggiore di 0
+    answer: |
+      SELECT COUNT(*) FROM table1 WHERE complesso > 0;
+  - question: |
+      Recupera la somma della colonna cig_ordinaria_totale_cigo dalla tabella table1
+    answer: |
+      SELECT SUM(cig_ordinaria_totale_cigo) FROM table1;
+  - question: |
+      Recupera le righe dalla tabella table1 dove la colonna anni è uguale a 2020
+    answer: |
+      SELECT * FROM table1 WHERE anni = 2020;
+  - question: |
+      Calcola la media della colonna variazione_percent dalla tabella table1
+    answer: |
+      SELECT AVG(variazione_percent) FROM table1;
+  - question: |
+      Recupera le righe dalla tabella table1 dove la colonna cig_straordinaria è maggiore di 100
+    answer: |
+      SELECT * FROM table1 WHERE cig_straordinaria > 100;
+  - question: |
+      Conta il numero di righe nella tabella table1 dove la colonna cig_ordinaria_industria è nulla
+    answer: |
+      SELECT COUNT(*) FROM table1 WHERE cig_ordinaria_industria IS NULL;
+  - question: |
+      Recupera la somma della colonna cig_ordinaria_edilizia dalla tabella table1
+    answer: |
+      SELECT SUM(cig_ordinaria_edilizia) FROM table1;
+  - question: |
+      Recupera le righe dalla tabella table1 dove la colonna anni è compresa tra 2015 e 2020
+    answer: |
+      SELECT * FROM table1 WHERE anni BETWEEN 2015 AND 2020;
+  - question: |
+      Calcola la somma delle colonne cig_straordinaria e cig_ordinaria_totale_cigo dalla tabella table1
+    answer: |
+      SELECT SUM(cig_straordinaria + cig_ordinaria_totale_cigo) FROM table1;
+- context: |
+    The table table1 has the following schema.
+    Column anni, Data Type integer, Nullable YES
+    Column cig ordinaria totale cigo, Data Type bigint, Nullable YES
+    Column cig straordinaria, Data Type bigint, Nullable YES
+    Column cig ordinaria industria, Data Type bigint, Nullable YES
+    Column cig ordinaria edilizia, Data Type bigint, Nullable YES
+    Column complesso, Data Type bigint, Nullable YES
+    Column variazione percent, Data Type double precision, Nullable YES
+    This schema describes the structure of the table and can be used to build SQL queries.
+  questions_and_answers:
+  - question: |
+      Recupera tutti i valori della colonna 'anni' dalla tabella 'table1'
+    answer: |
+      SELECT anni FROM table1;
+  - question: |
+      Calcola la somma di tutti i valori della colonna 'cig_ordinaria_totale_cigo' nella tabella 'table1'
+    answer: |
+      SELECT SUM(cig_ordinaria_totale_cigo) FROM table1;
+  - question: |
+      Restituisci il valore massimo della colonna 'cig_straordinaria' nella tabella 'table1'
+    answer: |
+      SELECT MAX(cig_straordinaria) FROM table1;
+  - question: |
+      Recupera le righe della tabella 'table1' dove il valore della colonna 'anni' è uguale a 2020
+    answer: |
+      SELECT * FROM table1 WHERE anni = 2020;
+  - question: |
+      Calcola la media dei valori della colonna 'cig_ordinaria_industria' nella tabella 'table1'
+    answer: |
+      SELECT AVG(cig_ordinaria_industria) FROM table1;
+  - question: |
+      Restituisci le righe della tabella 'table1' dove il valore della colonna 'complesso' è maggiore di 1000
+    answer: |
+      SELECT * FROM table1 WHERE complesso > 1000;
+  - question: |
+      Recupera la conteggio delle righe della tabella 'table1' dove il valore della colonna 'variazione_percent' è m...
+    answer: |
+      SELECT COUNT(*) FROM table1 WHERE variazione_percent > 0;
+  - question: |
+      Restituisci la somma dei valori delle colonne 'cig_ordinaria_edilizia' e 'cig_straordinaria' nella tabella 'ta...
+    answer: |
+      SELECT SUM(cig_ordinaria_edilizia + cig_straordinaria) FROM table1;
+  - question: |
+      Recupera le righe della tabella 'table1' dove il valore della colonna 'anni' è compreso tra 2010 e 2020
+    answer: |
+      SELECT * FROM table1 WHERE anni BETWEEN 2010 AND 2020;
+  - question: |
+      Calcola la varianza dei valori della colonna 'variazione_percent' nella tabella 'table1'
+    answer: |
+      SELECT VARIANCE(variazione_percent) FROM table1;
+document_outline: |
+  This document provides examples of converting natural language queries into SQL queries
+  based on various database table schemas.
 document:
-  repo: https://github.com/ruslanmv/taxonomy 
-  commit: 46b0bc1
+  repo: https://github.com/ruslanmv/taxonomy
+  commit: fff0933
   patterns:
-    - "*.md"
+  - '*.md'

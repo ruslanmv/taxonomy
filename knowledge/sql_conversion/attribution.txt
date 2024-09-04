@@ -1,0 +1,6 @@
+Example attribution.txt
+
+[Source]: https://github.ibm.com/Data-Scientists-CIC-Italy/inps-chatbot-sql/taxonomy
+[Work]: https://github.ibm.com/Data-Scientists-CIC-Italy/inps-chatbot-sql/taxonomy/blob/main/README.md
+[License]: Apache License 2.0 (or specify the correct license if different)
+[Creator]: ruslanmv (Ruslan Magana)
