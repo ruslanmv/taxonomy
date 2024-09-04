@@ -262,6 +262,6 @@ document_outline: |
   based on various database table schemas.
 document:
   repo: https://github.com/ruslanmv/taxonomy
-  commit: fff0933
+  commit: b3671da
   patterns:
   - '*.md'
